@@ -1,0 +1,65 @@
+# Byte-compiled / optimized / DLL files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Django specific
+*.log
+*.pot
+*.pyc
+*.sqlite3
+db.sqlite3
+/media
+/staticfiles
+/static
+.env
+
+# If your virtualenv is within the project
+venv/
+env/
+
+# VSCode files
+.vscode/
+
+# PyCharm files
+.idea/
+
+# macOS system files
+.DS_Store
+
+# Windows system files
+Thumbs.db
+Desktop.ini
+
+# Python egg files
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+
+# Coverage reports
+htmlcov/
+.coverage
+
+# pytest
+.cache
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Sphinx documentation
+docs/_build/
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Celery beat schedule file
+celerybeat-schedule
+
+# Backup files
+*.bak
+*.swp
+*.swo
