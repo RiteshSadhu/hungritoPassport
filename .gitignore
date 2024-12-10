@@ -10,27 +10,30 @@ __pycache__/
 *.pyc
 *.sqlite3
 db.sqlite3
-/media
-/staticfiles
-/static
-.env
-
-# If your virtualenv is within the project
-venv/
-env/
-
-# VSCode files
-.vscode/
-
-# PyCharm files
-.idea/
-
-# macOS system files
-.DS_Store
+/media/
+/staticfiles/
+/static/
+/.env
 
 # Windows system files
 Thumbs.db
 Desktop.ini
+*.bak
+
+# macOS system files (if working with mac users too)
+.DS_Store
+
+# PyCharm specific
+.idea/
+
+# Virtual environments (common for Windows or Linux setups)
+venv/
+env/
+
+# System generated files
+*.swp
+*.swo
+*.tmp
 
 # Python egg files
 *.egg
@@ -46,20 +49,24 @@ htmlcov/
 # pytest
 .cache
 
-# Jupyter Notebook checkpoints
-.ipynb_checkpoints
-
-# Sphinx documentation
-docs/_build/
-
-# PyInstaller
-*.manifest
-*.spec
-
 # Celery beat schedule file
 celerybeat-schedule
 
+# Logs and dumps
+*.log
+*.out
+*.err
+
 # Backup files
 *.bak
-*.swp
-*.swo
+~$*
+
+# Linux generated files (for AlmaLinux during deployment)
+*.pid
+*.seed
+*.lock
+*.sock
+
+# Temporary files from editors
+*.orig
+*.rej
