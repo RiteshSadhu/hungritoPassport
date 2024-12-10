@@ -10,10 +10,13 @@ __pycache__/
 *.pyc
 *.sqlite3
 db.sqlite3
-/media/
-/staticfiles/
-/static/
+/media/*
+/staticfiles/*
+/static/*
 /.env
+
+!/static/
+!/media/
 
 # Windows system files
 Thumbs.db
