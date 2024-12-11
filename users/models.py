@@ -1,8 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, FileExtensionValidator
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+
 from django.utils import timezone
+
+
 
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True, verbose_name='Email Address')
@@ -32,8 +36,16 @@ class Profile(models.Model):
     # Additional fields for the passport user details
     date_of_birth = models.DateField(null=True, blank=True)
     nationality = models.CharField(max_length=50, blank=True)
-    phone_number = models.CharField(max_length=20, blank=True)
-
+    phone_number = models.CharField(
+        max_length=15,
+        blank=True,
+        validators=[
+            RegexValidator(
+                regex=r'^\+?1?\d{9,15}$',
+                message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed."
+            )
+        ]
+    )
     # Address fields (optional)
     address_line1 = models.CharField(max_length=255, blank=True)
     address_line2 = models.CharField(max_length=255, blank=True)
@@ -47,7 +59,19 @@ class Profile(models.Model):
     is_verified = models.BooleanField(default=False)
 
     # Profile picture (optional)
-    profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
+    def validate_image_size(value):
+        filesize = value.size
+        if filesize > 1 * 1024 * 1024:  # 5MB limit
+            raise ValidationError("Maximum file size is 5MB")
 
+    profile_picture = models.ImageField(
+        upload_to='profile_pics/',
+        blank=True,
+        null=True,
+        validators=[
+            FileExtensionValidator(['jpg', 'jpeg', 'png']),
+            validate_image_size
+        ]
+    )
     def __str__(self):
         return f"{self.user.username}'s Profile"
