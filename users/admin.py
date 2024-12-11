@@ -9,10 +9,11 @@ class ProfileInline(admin.StackedInline):
     can_delete = False
     verbose_name = 'Profile'
     verbose_name_plural = 'Profiles'
+    readonly_fields = ('created_at', 'updated_at')
+
 
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
-    list_display = ('email', 'username', 'whatsapp_number', 'is_active', 'date_joined')
     list_filter = ('is_active', 'is_staff', 'date_joined')
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
@@ -29,6 +30,9 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ('email', 'username', 'whatsapp_number')
     ordering = ('email',)
     inlines = [ProfileInline]
+
+    readonly_fields = ('date_joined', 'last_login')
+    list_display = ('email', 'username', 'whatsapp_number', 'is_active', 'date_joined', 'last_login')
 
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Profile)

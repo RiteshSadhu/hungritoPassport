@@ -5,6 +5,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import CustomUserCreationForm, ProfileForm, CustomUserChangeForm
+from django.core.exceptions import ValidationError
 
 
 def register(request):
@@ -12,15 +13,18 @@ def register(request):
         user_form = CustomUserCreationForm(request.POST)
         profile_form = ProfileForm(request.POST, request.FILES)
 
-        if user_form.is_valid() and profile_form.is_valid():
-            user = user_form.save()
-            profile = profile_form.save(commit=False)
-            profile.user = user
-            profile.save()
+        try:
+            if user_form.is_valid() and profile_form.is_valid():
+                user = user_form.save()
+                profile = profile_form.save(commit=False)
+                profile.user = user
+                profile.save()
 
-            login(request, user)
-            messages.success(request, 'Registration successful!')
-            return redirect('users:profile')
+                login(request, user)
+                messages.success(request, 'Registration successful!')
+                return redirect('users:profile')
+        except ValidationError as e:
+            messages.error(request, str(e))
     else:
         user_form = CustomUserCreationForm()
         profile_form = ProfileForm()

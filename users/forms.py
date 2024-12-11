@@ -14,7 +14,13 @@ class CustomUserChangeForm(UserChangeForm):
         model = CustomUser
         fields = ('email', 'username', 'whatsapp_number')
 
+
 class ProfileForm(forms.ModelForm):
+    date_of_birth = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        help_text="Format: YYYY-MM-DD"
+    )
+
     class Meta:
         model = Profile
         fields = [
@@ -29,3 +35,8 @@ class ProfileForm(forms.ModelForm):
             'postal_code',
             'profile_picture'
         ]
+        widgets = {
+            'address_line1': forms.TextInput(attrs={'placeholder': 'Street address'}),
+            'address_line2': forms.TextInput(attrs={'placeholder': 'Apartment, suite, etc.'}),
+            'postal_code': forms.TextInput(attrs={'placeholder': 'Postal/ZIP code'}),
+        }
