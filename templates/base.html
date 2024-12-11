@@ -1,0 +1,182 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Your Site Name{% endblock %}</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        /* Custom Variables */
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+        }
+
+        /* General Styles */
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #f8f9fa;
+        }
+
+        /* Navbar Styles */
+        .navbar-brand {
+            font-weight: bold;
+            color: var(--primary-color) !important;
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            padding: 2rem 0;
+        }
+
+        /* Messages/Alerts */
+        .messages {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 1rem;
+        }
+
+        .message {
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .error {
+            background-color: var(--error-color);
+            color: white;
+        }
+
+        /* Forms */
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #343a40;
+            color: white;
+            padding: 1rem 0;
+            margin-top: auto;
+        }
+
+        /* Profile Styles */
+        .profile-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .form-container,
+            .profile-container {
+                margin: 1rem;
+                padding: 1rem;
+            }
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">Your Site Name</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <!-- Add more navigation items here -->
+                </ul>
+                <ul class="navbar-nav">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'users:profile' %}">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'users:logout' %}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'users:login' %}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'users:register' %}">Register</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Messages -->
+    {% if messages %}
+    <div class="container mt-3">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <div class="container">
+            <p>&copy; {% now "Y" %} Your Site Name. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    
+    <!-- Optional JavaScript -->
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

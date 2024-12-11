@@ -1,0 +1,41 @@
+<!-- templates/users/profile.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="profile-container">
+    <h2>Profile</h2>
+    
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="message {{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="profile-info">
+        {% if user.profile.profile_picture %}
+        <img src="{{ user.profile.profile_picture.url }}" alt="Profile Picture">
+        {% endif %}
+        
+        <h3>{{ user.username }}</h3>
+        <p>Email: {{ user.email }}</p>
+        <p>WhatsApp: {{ user.whatsapp_number }}</p>
+        
+        <h4>Personal Information</h4>
+        <p>Date of Birth: {{ user.profile.date_of_birth|default:"Not provided" }}</p>
+        <p>Nationality: {{ user.profile.nationality|default:"Not provided" }}</p>
+        <p>Phone: {{ user.profile.phone_number|default:"Not provided" }}</p>
+        
+        <h4>Address</h4>
+        <p>{{ user.profile.address_line1 }}</p>
+        <p>{{ user.profile.address_line2 }}</p>
+        <p>{{ user.profile.city }}, {{ user.profile.state }}</p>
+        <p>{{ user.profile.country }}, {{ user.profile.postal_code }}</p>
+        
+        <a href="{% url 'users:profile_edit' %}" class="edit-button">Edit Profile</a>
+    </div>
+</div>
+{% endblock %}
